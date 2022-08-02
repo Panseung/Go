@@ -1,8 +1,32 @@
-# Go
+# Go with Nico
 
-[1. test...](#here)
+### Index
+
+### [Base](#base) 
+
+- [1. import & package](#import-&-package)
+- [2. const let](#const-let)
+- [3. defer 함수](#defer-함수)
+- [4. 반복문](#반복문)
+- [5. 조건문](#조건문)
+- [6. switch](#switch)
+- [7. memory](#memory)
+- [8. Arrays and Slices](#arrays-and-slices)
+- [9. map](#map)
+- [10. struct](#struct)
+
+### [1st Project: Bank (#bank)](#1st-project-bank-bank)
+
+- [1. pointer](#pointer)
+- [2. method](#method)
+- [3. function vs method](#function-vs-method)
+- [4. error](#error)
+- [5. struct의 특정값 불러오는 내부 method](#struct의-특정값-불러오는-내부-method)
+- [6.Bank project main.go & accounts.go](#bank-project-maingo--accountsgo) 
 
 
+
+### Base
 
 #### import & package
 
@@ -50,8 +74,6 @@ func main() {
 ```
 
 
-
-# here
 
 ```go
 package main
