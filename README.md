@@ -17,7 +17,7 @@
 
 ### [1st Project: Bank (#bank)](#1st-project-bank-bank)
 
-- [1. pointer](#pointer)
+- [1. pointer★](#pointer)
 - [2. method](#method)
 - [3. function vs method](#function-vs-method)
 - [4. error](#error)
@@ -228,7 +228,7 @@ func main() {
 ```
 
 5가 출력됨
-b는 a의 주소 자체를 copy하고 있고 이 메모리 주소를 '*'(pointer)를 통해 다시 값을 불러올 수 있음
+b는 a의 주소 자체를 copy하고 있고 이 메모리 주소를 '*'를 통해 역참조가 가능(다시 값을 불러올 수 있음)
 
 `*b= 20` 코드를 추가하고
 `fmt.Println(a)`를 실행하면 20이 출력됨
@@ -304,11 +304,12 @@ clean한 코드라고 할 수 있음
 
 
 
-### 1st Project: Bank (#bank)
+### 1st Project: Bank
 
-#### pointer
+#### pointer ★★★★★★★★★★★★★★★
 
-포인터는 타입으로서 메모리 주소를 참조한다.
+1. 포인터란 메모리 주소를 값으로 가진 변수(의 타입을)를 포인터라고 한다
+2. `*`는 포인터 변수를 "역참조" 하는 데도 사용된다!!!!!!
 
 ## ★★★★★★★
 
@@ -329,7 +330,9 @@ func NewAccount(owner string) *BankAccount {
 복사본을 return하는게 아니라 실제 메모리를 return함으로써
 불필요한 메모리를 줄이는 중요한 최적화 작업!!!!!!!!!!!!!!!!!!!!!!!!!
 
-
+(&account를 return하는데 이는 메모리 주소를 반환하는 것이므로
+메모리 주소를 타입으로 가진 변수를 return하기 때문에 
+*BankAccount로 타입을 작성)
 
 ### Method
 
@@ -487,4 +490,12 @@ func (a *Account) Withdraw(amount int) error {
 	return nil
 }
 ```
+
+
+
+
+
+### 2nd Project: Bank
+
+#### Type
 
