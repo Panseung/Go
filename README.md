@@ -4,7 +4,7 @@
 
 ### [Base](#base) 
 
-- [1. import & package](#import-&-package)
+- [1. import & package](#import--package)
 - [2. const let](#const-let)
 - [3. defer 함수](#defer-함수)
 - [4. 반복문](#반복문)
