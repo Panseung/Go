@@ -497,5 +497,145 @@ func (a *Account) Withdraw(amount int) error {
 
 ### 2nd Project: Bank
 
-#### Type
+#### Map Type
+
+Map은 키(Key)에 대응하는 값(Value)을 신속히 찾는 해시테이블(Hash table)을 구현한 자료구조이다.
+"map[Key타입]Value타입"
+
+```go
+type Dictionary map[string]string
+```
+
+Map type은 두가지를 return함
+키에 상응하는 value, 키가 존재하는지에 대한 boolean
+
+```go
+var errNotFound = errors.New("Not Fount")
+
+func (d Dictionary) Search(word string) (string, error) {
+	value, exists := d[word]
+	if exists {
+		return value, nil
+	}
+	return "", errNotFound
+}
+```
+
+
+
+#### Map & pointer
+
+Question
+
+```
+Why "Update" method doesn't include point receiver(*) beside Dictionary? 
+Is this reason equal to why "Delete" method doesn't include point receiver?
+(reason: Dictionary is hash map)
+
+So, if I use struct, when I make a Update, Delete method, must I use point receiver? Plz reply! Thanks! :)
+```
+
+answer
+```
+Correct!
+Good question, we don't need the * on the receiver because maps on Go are automatically using *
+```
+
+
+
+#### var 한번에 선언
+
+```go
+var (
+	errNotFound = errors.New("Not Fount")
+  	errWordExists = errors.New("That word already exists")
+ 	errCandUpdate = errors.New("Cant update non-existing word")
+)
+```
+
+이런식으로 var 한 번에 여러개 선언 가능
+
+
+
+#### Add, Update, Delete (main.go, mydict.go)
+
+mydict.go
+```go
+package mydict
+
+import "errors"
+
+type Dictionary map[string]string
+
+var (
+	errNotFound = errors.New("Not Fount")
+  errWordExists = errors.New("That word already exists")
+  errCantUpdate = errors.New("Cant update non-existing word")
+	errCantDelete = errors.New("Cant Delete non-existing word")
+)
+
+
+func (d Dictionary) Search(word string) (string, error) {
+	value, exists := d[word]
+	if exists {
+		return value, nil
+	}
+	return "", errNotFound
+}
+
+func (d Dictionary) Add(word, def string) error {
+	_, err := d.Search(word)
+	if err == errNotFound {
+		d[word] = def
+	} else if err == nil {
+		return errWordExists  
+	}
+	return nil
+}
+
+func (d Dictionary) Update(word, definition string) error{
+	_, err := d.Search(word)
+	switch err {
+	case nil:
+		d[word] = definition
+	case errNotFound:
+		return errCantUpdate
+	}
+	return nil
+}
+
+func (d Dictionary) Delete(word string) error{
+	_, err := d.Search(word)
+	switch err {
+	case nil:
+		delete(d, word)
+	case errNotFound:
+		return errCantDelete
+	}
+	return nil
+}
+```
+
+main.go
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/panseung/learngo/mydict"
+)
+
+func main() {
+	dictionary := mydict.Dictionary{}
+	baseword := "hello"
+	dictionary.Add(baseword, "First")
+	err := dictionary.Update(baseword, "Second")
+	if err != nil {
+		fmt.Println(err)
+	}
+	word, _ := dictionary.Search(baseword)
+	fmt.Println(word)
+}
+ 
+```
 
