@@ -31,6 +31,18 @@
 - [var 한 번에 선언](#var-한번에-선언)
 - [정리: Add, Update, Delete (main.go, mydict.go)](#add-update-delete-maingo-mydictgo)
 
+
+
+### 3rd Project: URL CHECKER & GO ROUTINES
+
+
+
+
+
+
+
+
+
 ### Base
 
 #### import & package
@@ -644,3 +656,67 @@ func main() {
  
 ```
 
+
+
+
+
+## 3rd Project: URL CHECKER
+
+
+
+#### hitURL & URLChecker
+
+main.go
+
+```go
+package main
+
+import (
+	"errors"
+	"fmt"
+	"net/http"
+)
+
+func main() {
+
+	var results = map[string]string{}
+
+	urls := []string{
+		"https://www.airbnb.com/",
+		"https://www.google.com/",
+		"https://www.amazon.com/",
+		"https://www.reddit.com/",
+		"https://www.google.com/",
+		"https://soundcloud.com/",
+		"https://www.facebook.com/",
+		"https://www.instagram.com/",
+		"https://academy.nomadcoders.co/",
+	}
+
+	for _, url := range urls {
+		result := "OK"
+		err := hitURL(url)
+		if err != nil {
+			result = "FAILED"
+		}
+		results[url] = result
+	}
+	for url, result := range results {
+		fmt.Println(url, result)
+	}
+}
+
+var errRequestFailed = errors.New("Request Failed")
+
+func hitURL(url string) error {
+	fmt.Println("Checking: ", url)
+	resp, err := http.Get((url))
+	if err != nil || resp.StatusCode >= 400 {
+		return errRequestFailed
+	}
+	return nil
+}
+```
+
+http.Get(url) 코드는
+해당 주소가 잘 접속이 되는지 확인하는 함수!!
