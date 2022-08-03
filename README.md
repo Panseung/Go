@@ -2,7 +2,7 @@
 
 ### Index
 
-### [Base](#base) 
+### Base 
 
 - [1. import & package](#import--package)
 - [2. const let](#const-let)
@@ -15,7 +15,7 @@
 - [9. map](#map)
 - [10. struct](#struct)
 
-### [1st Project: Bank (#bank)](#1st-project-bank-bank)
+### 1st Project: Bank (#bank)
 
 - [1. pointer★](#pointer)
 - [2. method](#method)
@@ -24,12 +24,12 @@
 - [5. struct의 특정값 불러오는 내부 method](#struct의-특정값-불러오는-내부-method)
 - [6.Bank project main.go & accounts.go](#bank-project-maingo--accountsgo) 
 
-### [2nd Project: Bank](#2nd-project-bank)
+### 2nd Project: Bank
 
 - [Map type](#map-type)
 - [Map & pointer](#map--pointer)
-- [var 한 번에 선언](var-한번에-선언)
-- [정리: Add, Update, Delete (main.go, mydict.go)](add-update-delete-maingo-mydictgo)
+- [var 한 번에 선언](#var-한번에-선언)
+- [정리: Add, Update, Delete (main.go, mydict.go)](#add-update-delete-maingo-mydictgo)
 
 ### Base
 
