@@ -15,7 +15,7 @@
 - [9. map](#map)
 - [10. struct](#struct)
 
-### 1st Project: Bank (#bank)
+### 1st Project: Bank
 
 - [1. pointer★](#pointer)
 - [2. method](#method)
@@ -35,9 +35,9 @@
 
 - [hitURL & URLChecker](#hitURL--URLChecker)
 
-### 4th Project: Goroutines
-
-- 
+- [goroutines](#goroutines)
+- [channels](#channels)
+- [URLChecker with Goroutine](#urlchecker-with-goroutine)
 
 
 
