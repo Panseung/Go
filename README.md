@@ -31,13 +31,13 @@
 - [var 한 번에 선언](#var-한번에-선언)
 - [정리: Add, Update, Delete (main.go, mydict.go)](#add-update-delete-maingo-mydictgo)
 
-
-
 ### 3rd Project: URL CHECKER & GO ROUTINES
 
+- [hitURL & URLChecker](#hitURL--URLChecker)
 
+### 4th Project: Goroutines
 
-
+- 
 
 
 
@@ -660,7 +660,7 @@ func main() {
 
 
 
-## 3rd Project: URL CHECKER
+## 3rd Project: URL CHECKER and Goroutines
 
 
 
@@ -720,3 +720,175 @@ func hitURL(url string) error {
 
 http.Get(url) 코드는
 해당 주소가 잘 접속이 되는지 확인하는 함수!!
+
+
+
+#### Goroutines
+
+함수 앞에 go를 붙여주면 main함수고 실행하는 동안 해당 함수를 비동기로 실행
+```go
+func main() {
+	go sexyCount("nico")
+	sexyCount("flynn")
+}
+
+func sexyCount(person string) {
+	for i := 0; i < 10; i++ {
+		fmt.Println(person, "is sexy", i)
+		time.Sleep(time.Second)
+	}
+}
+```
+
+동기로 처리했으면 nico 0~9 출력된 후 flynn 0~9가 출력됨
+
+아래처럼 둘 다 go를 붙이면 아무 일도 일어나지 않음
+```go
+func main() {
+	go sexyCount("nico")
+	go sexyCount("flynn")
+}
+```
+
+왜냐하면 main함수에서 실행하는 동안 go 함수가 진행되는데
+둘 다 go가 붙어서 동작시킬 다른 함수가 없기 때문에 main이 바로 종료!
+
+
+
+#### Channels
+
+Go 에서는
+```go
+result := function(a, b)
+```
+
+이런식으로 함수의 return값을 변수에 저장하지 못한다.
+따라서 이러한 기능이 필요할 때 channel을 사용해야함
+
+```go
+func main() {
+	 c := make(chan bool)
+
+	people := [2]string{"nico", "flynn"}
+	for _, person := range people {
+		go isSexy(person, c)
+	}		
+	
+	result := <-c
+	fmt.Println(result)
+}
+
+func isSexy(person string, c chan bool) {
+	time.Sleep(time.Second * 5)
+	c <- true
+}
+```
+
+main() 에서
+반복문 코드까지는 순식간에 돌아감 (Goroutine)
+그러나 그 밑에 코드에서 reuslt에 c라는 채널을 통해 값을 받고
+이후에 print를 해야하는 코드 때문에
+main함수를 바로 종료하지 않고 기다리게 되는 것
+
+좀 더 발전된 코드를 보면
+main.go
+
+```go
+func main() {
+	c := make(chan bool)
+
+	people := [2]string{"nico", "flynn"}
+
+	for _, person := range people {
+		go isSexy(person, c)
+	}		
+
+	fmt.Println(<-c)
+	fmt.Println(<-c)
+}
+
+func isSexy(person string, c chan bool) {
+	switch person {
+	case "nico":
+		c<-true
+	case "flynn":
+		c <- false
+	}
+}
+```
+
+위 코드에서 `fmt.Println(<-c)` 코드는 c채널에 메세지가 가는 즉시 프린트 하라는 코드
+Go는 smart해서 두개의 Goroutine이 돌고 있는걸 알고 있음
+따라서 fmt.Println(<-c) 코드를 하나 더 적으면 받아 올 메세지가 없기 때문에 error 발생
+
+최종 업그레이드 코드
+```go
+func main() {
+	c := make(chan string)
+
+	people := [5]string{"nico", "flynn", "T", "S", "R"}
+
+	for _, person := range people {
+		go isSexy(person, c)
+	}
+	for i := 0; i < len(people); i++ {
+		fmt.Println(<-c)
+	}
+}
+
+func isSexy(person string, c chan string) {
+	c <- person + " is sexy"
+}
+```
+
+
+
+#### URLChecker with Goroutine
+
+main.go
+```go
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+type result struct {
+	url string
+	status string
+}
+
+func main() {
+	c := make(chan result)
+	urls := []string{
+		"https://www.airbnb.com/",
+		"https://www.google.com/",
+		"https://www.amazon.com/",
+		"https://www.reddit.com/",
+		"https://www.google.com/",
+		"https://soundcloud.com/",
+		"https://www.facebook.com/",
+		"https://www.instagram.com/",
+		"https://academy.nomadcoders.co/",
+	}
+
+	for _, url := range urls {
+		go hitURL(url, c)
+	}
+
+	for i:=0; i < len(urls); i++ {
+		fmt.Println(<-c)
+	}
+}
+
+func hitURL(url string, c chan<- result) {
+	resp, err := http.Get((url))
+	status := "OK"
+	if err != nil || resp.StatusCode >= 400 {
+		status = "FAILED"
+	} 
+	c <- result{url:url, status: status}
+}
+```
+
