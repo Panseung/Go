@@ -39,9 +39,10 @@
 - [channels](#channels)
 - [URLChecker with Goroutine](#urlchecker-with-goroutine)
 
+### 4th csv parser
 
-
-
+- Fatalln
+- 
 
 ### Base
 
@@ -891,4 +892,14 @@ func hitURL(url string, c chan<- result) {
 	c <- result{url:url, status: status}
 }
 ```
+
+
+
+
+
+### 4th Project: Job Scrapper
+
+#### Fatalln
+
+Println() 다음에 os.Exit(1)를 호출하는 것과 동일
 
